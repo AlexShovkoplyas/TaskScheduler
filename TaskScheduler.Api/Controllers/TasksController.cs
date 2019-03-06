@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using TaskScheduler.DAL;
 using TaskScheduler.Domain;
 using TaskScheduler.Domain.Dto;
+using TaskScheduler.Domain.Interfaces;
+using TaskScheduler.Domain.Models;
 
 namespace TaskScheduler.Api.Controllers
 {
@@ -14,15 +16,20 @@ namespace TaskScheduler.Api.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private TestDbAccess db = new TestDbAccess();
+        private readonly IRepository<TaskEntity> repository;
+        private readonly IQueueWriter<TaskEntity> queueWriter;
+
+        public TasksController(IRepository<TaskEntity> repository, IQueueWriter<TaskEntity> queueWriter)
+        {
+            this.repository = repository;
+            this.queueWriter = queueWriter;
+        }
 
         // GET: api/Tasks
         [HttpGet]
-        public async Task<IEnumerable<string>> Get()
+        public IEnumerable<string> Get()
         {
-            await db.Method();
-            return new string[] { "value1", "value2" };
-            
+            return new string[] { "value1", "value2" };            
         }
 
         // GET: api/Tasks/5
@@ -49,6 +56,25 @@ namespace TaskScheduler.Api.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        [Route("test")]
+        public async Task TestEndpoint()
+        {
+            var task = new WebPingTask
+            {
+                Id = "3",
+                Cron = "* * * * 1",
+                TaskType = TaskType.WebPing,
+                TaskOptions = new WebPingOptions
+                {
+                    Url = "yahoo.com"
+                }
+            };
+
+            await repository.Add(task);
+
+
         }
     }
 }

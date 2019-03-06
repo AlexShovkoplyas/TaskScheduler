@@ -5,10 +5,8 @@ using System.Threading.Tasks;
 
 namespace TaskScheduler.Domain.Interfaces
 {
-    public interface IRepository<T>
+    public interface IQueueWriter<T>
     {
-        Task<T> Add(T entity);
-        Task<T> Update(T entity);
-        Task<bool> Remove(string id);
+        Task Send(T entity);
     }
 }
