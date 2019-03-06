@@ -17,64 +17,58 @@ namespace TaskScheduler.Api.Controllers
     public class TasksController : ControllerBase
     {
         private readonly IRepository<TaskEntity> repository;
-        private readonly IQueueWriter<TaskEntity> queueWriter;
+        private readonly IManager<TaskEntity> manager;
+        private readonly TasksFactory<TaskEntity> tasksFactory;
 
-        public TasksController(IRepository<TaskEntity> repository, IQueueWriter<TaskEntity> queueWriter)
+        public TasksController(
+            IRepository<TaskEntity> repository, 
+            IManager<TaskEntity> manager,
+            TasksFactory<TaskEntity> tasksFactory)
         {
             this.repository = repository;
-            this.queueWriter = queueWriter;
+            this.manager = manager;
+            this.tasksFactory = tasksFactory;
         }
 
-        // GET: api/Tasks
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };            
-        }
+        //[HttpGet]
+        //public IEnumerable<string> Get()
+        //{
+        //    return new string[] { "value1", "value2" };            
+        //}
 
-        // GET: api/Tasks/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+        //[HttpGet("{id}", Name = "Get")]
+        //public string Get(int id)
+        //{
+        //    return null;
+        //}
 
-        // POST: api/Tasks
         [HttpPost]
-        public void Post([FromBody] CreateTaskDto task)
+        public void Post([FromBody] TaskEntity task)
         {
-
+            repository.Add(task);
+            manager.Add(task, tasksFactory.SendMessageAction);
         }
 
-        // PUT: api/Tasks/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
+        //[HttpDelete("{id}")]
+        //public void Delete(int id)
+        //{
+        //}
 
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+        //[Route("test")]
+        //public async Task TestEndpoint()
+        //{
+        //    var task = new WebPingTask
+        //    {
+        //        Id = "3",
+        //        Cron = "* * * * 1",
+        //        TaskType = TaskType.WebPing,
+        //        TaskOptions = new WebPingOptions
+        //        {
+        //            Url = "yahoo.com"
+        //        }
+        //    };
 
-        [Route("test")]
-        public async Task TestEndpoint()
-        {
-            var task = new WebPingTask
-            {
-                Id = "3",
-                Cron = "* * * * 1",
-                TaskType = TaskType.WebPing,
-                TaskOptions = new WebPingOptions
-                {
-                    Url = "yahoo.com"
-                }
-            };
-
-            await repository.Add(task);
-
-
-        }
+        //    await repository.Add(task);
+        //}
     }
 }

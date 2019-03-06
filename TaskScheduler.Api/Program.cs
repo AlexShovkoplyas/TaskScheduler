@@ -15,6 +15,8 @@ namespace TaskScheduler.Api
         public static void Main(string[] args)
         {
             CreateWebHostBuilder(args).Build().Run();
+
+            //TODO: start Manager in separate thread
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>

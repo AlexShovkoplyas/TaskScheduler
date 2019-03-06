@@ -14,6 +14,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using TaskScheduler.DAL;
 using TaskScheduler.Domain.Interfaces;
 using TaskScheduler.Domain.Models;
+using TaskScheduler.Manager;
 using TaskScheduler.QueueProcessor;
 
 namespace TaskScheduler.Api
@@ -30,8 +31,12 @@ namespace TaskScheduler.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IRepository<TaskEntity>, Repository<TaskEntity>>((s) => Repository<TaskEntity>.CreateAsync().Result);
-            services.AddTransient<IQueueWriter<TaskEntity>, Dispatcher<TaskEntity>>((s) => Dispatcher<TaskEntity>.CreateAsync().Result);
+            services.AddScoped<IRepository<TaskEntity>, Repository<TaskEntity>>((s) => Repository<TaskEntity>.CreateAsync().Result);
+            services.AddScoped<IQueueWriter<TaskEntity>, QueueDispatcher<TaskEntity>>((s) => QueueDispatcher<TaskEntity>.CreateAsync().Result);
+
+            services.AddScoped(typeof(TasksFactory<TaskEntity>));
+            services.AddSingleton<IManager<TaskEntity>, Manager<TaskEntity>>();
+            //TODO: Initialize Manager with tasks from DB
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
@@ -39,7 +44,6 @@ namespace TaskScheduler.Api
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,7 +65,6 @@ namespace TaskScheduler.Api
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
-
 
             app.UseMvc();
         }

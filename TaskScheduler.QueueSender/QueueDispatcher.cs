@@ -6,15 +6,15 @@ using TaskScheduler.Domain.Interfaces;
 
 namespace TaskScheduler.QueueProcessor
 {
-    public class Dispatcher<T> : IQueueWriter<T>, IQueueReader
+    public class QueueDispatcher<T> : IQueueWriter<T>, IQueueReader
     {
         CloudStorageAccount storageAccount;
         CloudQueueClient queueClient;
         CloudQueue queue;  
 
-        public static async Task<Dispatcher<T>> CreateAsync()
+        public static async Task<QueueDispatcher<T>> CreateAsync()
         {
-            var dispatcher = new Dispatcher<T>();
+            var dispatcher = new QueueDispatcher<T>();
             return await dispatcher.InitializeAsync();
         }
 
@@ -31,9 +31,9 @@ namespace TaskScheduler.QueueProcessor
             await queue.AddMessageAsync(message);
         }
 
-        private Dispatcher() { }
+        private QueueDispatcher() { }
 
-        private async Task<Dispatcher<T>> InitializeAsync()
+        private async Task<QueueDispatcher<T>> InitializeAsync()
         {
             queueClient = storageAccount.CreateCloudQueueClient();
             queue = queueClient.GetQueueReference("task_webping");

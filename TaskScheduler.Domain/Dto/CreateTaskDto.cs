@@ -4,7 +4,7 @@ namespace TaskScheduler.Domain.Dto
 {
     public class CreateTaskDto
     {
-        public CronDto Cron { get; set; }
+        public string Cron { get; set; }
 
         public TaskType TaskType { get; set; }
 
