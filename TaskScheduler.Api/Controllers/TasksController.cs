@@ -16,14 +16,14 @@ namespace TaskScheduler.Api.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly IRepository<TaskEntity> repository;
-        private readonly IManager<TaskEntity> manager;
-        private readonly TasksFactory<TaskEntity> tasksFactory;
+        private readonly IRepository<BaseTask> repository;
+        private readonly IManager<BaseTask> manager;
+        private readonly TasksFactory<BaseTask> tasksFactory;
 
         public TasksController(
-            IRepository<TaskEntity> repository, 
-            IManager<TaskEntity> manager,
-            TasksFactory<TaskEntity> tasksFactory)
+            IRepository<BaseTask> repository, 
+            IManager<BaseTask> manager,
+            TasksFactory<BaseTask> tasksFactory)
         {
             this.repository = repository;
             this.manager = manager;
@@ -43,7 +43,7 @@ namespace TaskScheduler.Api.Controllers
         //}
 
         [HttpPost]
-        public void Post([FromBody] TaskEntity task)
+        public void Post([FromBody] BaseTask task)
         {
             repository.Add(task);
             manager.Add(task, tasksFactory.SendMessageAction);

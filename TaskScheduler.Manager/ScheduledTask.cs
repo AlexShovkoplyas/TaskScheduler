@@ -10,15 +10,17 @@ namespace TaskScheduler.Manager
 {
     class ScheduledTask<T> : IComparable<ScheduledTask<T>> where T : IEntityCron
     {
+        private T Entity { get; set; }
+        private Func<T, Task> TaskFactory { get; set; }
+        private readonly CrontabSchedule cronParsed;
+
         public ScheduledTask(T entity, Func<T, Task> taskFactory)
         {
             Entity = entity;
             TaskFactory = taskFactory;
+            cronParsed = CrontabSchedule.Parse(Entity.Cron);
             SetNextOccurance();
-        }
-
-        private T Entity { get; set; }
-        private Func<T, Task> TaskFactory { get; set; }
+        }       
 
         public DateTime NextOccurance { get; private set; }
         
@@ -31,9 +33,8 @@ namespace TaskScheduler.Manager
         }
 
         private void SetNextOccurance()
-        {
-            var schedule = CrontabSchedule.Parse(Entity.Cron);
-            NextOccurance = schedule.GetNextOccurrence(DateTime.Now);
+        {            
+            NextOccurance = cronParsed.GetNextOccurrence(DateTime.Now);
         }
     }
 }

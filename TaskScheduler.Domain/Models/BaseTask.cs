@@ -6,7 +6,7 @@ using TaskScheduler.Domain.Interfaces;
 
 namespace TaskScheduler.Domain.Models
 {
-    public abstract class TaskEntity : IEntityId, IEntityCron
+    public abstract class BaseTask : IEntityId, IEntityCron
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }

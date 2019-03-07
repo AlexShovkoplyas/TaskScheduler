@@ -31,11 +31,11 @@ namespace TaskScheduler.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IRepository<TaskEntity>, Repository<TaskEntity>>((s) => Repository<TaskEntity>.CreateAsync().Result);
-            services.AddScoped<IQueueWriter<TaskEntity>, QueueDispatcher<TaskEntity>>((s) => QueueDispatcher<TaskEntity>.CreateAsync().Result);
+            services.AddScoped<IRepository<BaseTask>, Repository<BaseTask>>((s) => Repository<BaseTask>.CreateAsync().Result);
+            services.AddScoped<IQueueWriter<BaseTask>, QueueDispatcher<BaseTask>>((s) => QueueDispatcher<BaseTask>.CreateAsync().Result);
 
-            services.AddScoped(typeof(TasksFactory<TaskEntity>));
-            services.AddSingleton<IManager<TaskEntity>, Manager<TaskEntity>>();
+            services.AddScoped(typeof(TasksFactory<BaseTask>));
+            services.AddSingleton<IManager<BaseTask>, Manager<BaseTask>>();
             //TODO: Initialize Manager with tasks from DB
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

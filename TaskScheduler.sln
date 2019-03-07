@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.Domain", "Tas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.DAL", "TaskScheduler.DAL\TaskScheduler.DAL.csproj", "{3411E67D-8763-48C2-9602-B08948218AF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskScheduler.Manager", "TaskScheduler.Manager\TaskScheduler.Manager.csproj", "{3492EE59-572A-493F-A356-0260A373365B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.Manager", "TaskScheduler.Manager\TaskScheduler.Manager.csproj", "{3492EE59-572A-493F-A356-0260A373365B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskScheduler.QueueProcessor", "TaskScheduler.QueueSender\TaskScheduler.QueueProcessor.csproj", "{BF5539CD-8663-447D-AA17-14E506C09FEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.QueueProcessor", "TaskScheduler.QueueSender\TaskScheduler.QueueProcessor.csproj", "{BF5539CD-8663-447D-AA17-14E506C09FEC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.Tasks.WebPingCore", "TaskScheduler.Tasks.WebPingCore\TaskScheduler.Tasks.WebPingCore.csproj", "{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{BF5539CD-8663-447D-AA17-14E506C09FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF5539CD-8663-447D-AA17-14E506C09FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF5539CD-8663-447D-AA17-14E506C09FEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
