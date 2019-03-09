@@ -6,7 +6,7 @@ using TaskScheduler.Domain.Interfaces;
 
 namespace TaskScheduler.Domain.Models
 {
-    public abstract class WebPingTriggeredTask : BaseTriggeredTask
+    public class WebPingTriggeredTask : BaseTriggeredTask
     {
         public WebPingTaskResult TaskResult { get; set; }
     }

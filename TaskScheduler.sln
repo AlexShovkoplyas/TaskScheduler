@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.DAL", "TaskSc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.Manager", "TaskScheduler.Manager\TaskScheduler.Manager.csproj", "{3492EE59-572A-493F-A356-0260A373365B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.QueueProcessor", "TaskScheduler.QueueSender\TaskScheduler.QueueProcessor.csproj", "{BF5539CD-8663-447D-AA17-14E506C09FEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.QAL", "TaskScheduler.QAL\TaskScheduler.QAL.csproj", "{BF5539CD-8663-447D-AA17-14E506C09FEC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.Tasks.WebPingCore", "TaskScheduler.Tasks.WebPingCore\TaskScheduler.Tasks.WebPingCore.csproj", "{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.Tasks.WebPing", "TaskScheduler.Tasks.WebPing\TaskScheduler.Tasks.WebPing.csproj", "{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.Infrustructure", "TaskScheduler.Infrustructure\TaskScheduler.Infrustructure.csproj", "{5F5B8840-DCF5-41F9-98E8-9722121A4C57}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskScheduler.Tasks.SaveWebPage", "TaskScheduler.Tasks.SaveWebPage\TaskScheduler.Tasks.SaveWebPage.csproj", "{D77B9B14-8F19-401A-A1B6-283A8C2CCB66}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +55,14 @@ Global
 		{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DAC3829-1A08-45FD-A8CD-F2246A3FEAE4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F5B8840-DCF5-41F9-98E8-9722121A4C57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F5B8840-DCF5-41F9-98E8-9722121A4C57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5B8840-DCF5-41F9-98E8-9722121A4C57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F5B8840-DCF5-41F9-98E8-9722121A4C57}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D77B9B14-8F19-401A-A1B6-283A8C2CCB66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D77B9B14-8F19-401A-A1B6-283A8C2CCB66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D77B9B14-8F19-401A-A1B6-283A8C2CCB66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D77B9B14-8F19-401A-A1B6-283A8C2CCB66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

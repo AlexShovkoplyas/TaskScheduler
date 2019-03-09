@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TaskScheduler.Domain.Interfaces
 {
-    public interface IRepository<T>
+    public interface IDocumentRepository<T>
     {
         Task<IQueryable<T>> List();
         Task<T> Get(string id);

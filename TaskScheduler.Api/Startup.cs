@@ -16,7 +16,7 @@ using TaskScheduler.DAL;
 using TaskScheduler.Domain.Interfaces;
 using TaskScheduler.Domain.Models;
 using TaskScheduler.Manager;
-using TaskScheduler.QueueProcessor;
+using TaskScheduler.QAL;
 
 namespace TaskScheduler.Api
 {
@@ -32,12 +32,12 @@ namespace TaskScheduler.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IRepository<BaseTask>, Repository<BaseTask>>((s) => Repository<BaseTask>.CreateAsync().Result);
-            services.AddScoped<IQueueWriter<BaseTask>, QueueDispatcher<BaseTask>>((s) => QueueDispatcher<BaseTask>.CreateAsync().Result);
+            services.AddScoped<IDocumentRepository<BaseTask>, DocumentRepository<BaseTask>>((s) => DocumentRepository<BaseTask>.CreateAsync().Result);
+            services.AddScoped<IQueueWriter<BaseTask>, QueueRepository<BaseTask>>((s) => QueueRepository<BaseTask>.CreateAsync().Result);
 
             services.AddScoped(typeof(TasksFactory<BaseTask>));
 
-            services.AddSingleton<IManager<BaseTask>, Manager<BaseTask>>();
+            services.AddSingleton<ITaskManager<BaseTask>, TaskManager<BaseTask>>();
             services.AddHostedService<TaskManagerService<BaseTask>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);

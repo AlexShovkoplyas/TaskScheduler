@@ -22,7 +22,7 @@
     <ProjectReference Include="..\TaskScheduler.DAL\TaskScheduler.DAL.csproj" />
     <ProjectReference Include="..\TaskScheduler.Domain\TaskScheduler.Domain.csproj" />
     <ProjectReference Include="..\TaskScheduler.Manager\TaskScheduler.Manager.csproj" />
-    <ProjectReference Include="..\TaskScheduler.QueueSender\TaskScheduler.QueueProcessor.csproj" />
+    <ProjectReference Include="..\TaskScheduler.QAL\TaskScheduler.QAL.csproj" />
   </ItemGroup>
 
 </Project>

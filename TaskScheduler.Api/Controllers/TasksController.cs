@@ -16,13 +16,13 @@ namespace TaskScheduler.Api.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private readonly IRepository<BaseTask> repository;
-        private readonly IManager<BaseTask> manager;
+        private readonly IDocumentRepository<BaseTask> repository;
+        private readonly ITaskManager<BaseTask> manager;
         private readonly TasksFactory<BaseTask> tasksFactory;
 
         public TasksController(
-            IRepository<BaseTask> repository, 
-            IManager<BaseTask> manager,
+            IDocumentRepository<BaseTask> repository, 
+            ITaskManager<BaseTask> manager,
             TasksFactory<BaseTask> tasksFactory)
         {
             this.repository = repository;

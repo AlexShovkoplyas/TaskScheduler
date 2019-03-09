@@ -14,10 +14,10 @@ namespace TaskScheduler.Api.Services
     {
         public TaskManagerService(IServiceProvider services)
         {
-            manager = services.GetService<IManager<T>>();
+            manager = services.GetService<ITaskManager<T>>();
         }
 
-        private readonly IManager<T> manager;
+        private readonly ITaskManager<T> manager;
 
         public Task StartAsync(CancellationToken cancellationToken)
         {

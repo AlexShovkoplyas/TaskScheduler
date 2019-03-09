@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace TaskScheduler.DAL
 {
-    public class Repository<T> : IRepository<T> where T : IEntityId
+    public class DocumentRepository<T> : IDocumentRepository<T> where T : IEntityId
     {
         private const string EndpointUri = "https://taskscheduler2019.documents.azure.com:443/";
         private const string PrimaryKey = "HCoKWMtwjdBvWMapCLO5qvmd8cGMHJ1OceT06bUEWAss1USnOGL4VP5SrhMe71e5EirgZ2ULWsVnuPOEcbWRYA==";
@@ -23,9 +23,9 @@ namespace TaskScheduler.DAL
         private Uri documentCollectionUri;
         private Uri databaseUri;
 
-        public static Task<Repository<T>> CreateAsync()
+        public static Task<DocumentRepository<T>> CreateAsync()
         {
-            var repo = new Repository<T>();
+            var repo = new DocumentRepository<T>();
             return repo.InitializeAsync();
         }
 
@@ -62,9 +62,9 @@ namespace TaskScheduler.DAL
             return entity;
         }
 
-        private Repository() { }
+        private DocumentRepository() { }
 
-        private async Task<Repository<T>> InitializeAsync()
+        private async Task<DocumentRepository<T>> InitializeAsync()
         {
             client = new DocumentClient(new Uri(EndpointUri), PrimaryKey);
 
