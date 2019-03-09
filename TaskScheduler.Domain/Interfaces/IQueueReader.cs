@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace TaskScheduler.Domain.Interfaces
 {
-    public interface IQueueReader
+    public interface IQueueReader<T>
     {
-        Task<string> Read();
+        Task<T> Read();
     }
 }

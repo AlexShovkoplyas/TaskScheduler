@@ -1,12 +1,11 @@
 ﻿using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Queue;
-using System;
 using System.Threading.Tasks;
 using TaskScheduler.Domain.Interfaces;
 
 namespace TaskScheduler.QueueProcessor
 {
-    public class QueueDispatcher<T> : IQueueWriter<T>, IQueueReader
+    public class QueueDispatcher<T> : IQueueWriter<T>, IQueueReader<T>
     {
         CloudStorageAccount storageAccount;
         CloudQueueClient queueClient;
@@ -18,16 +17,16 @@ namespace TaskScheduler.QueueProcessor
             return await dispatcher.InitializeAsync();
         }
 
-        public async Task<string> Read()
+        public async Task<T> Read()
         {
             CloudQueueMessage retrievedMessage = await queue.GetMessageAsync();
             await queue.DeleteMessageAsync(retrievedMessage);
-            return retrievedMessage.AsString;
+            return retrievedMessage.AsString.Deserialize<T>();
         }
 
         public async Task Send(T entity)
         {
-            var message = new CloudQueueMessage(entity.ToString());
+            var message = new CloudQueueMessage(entity.Serialize());
             await queue.AddMessageAsync(message);
         }
 
