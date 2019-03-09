@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Swashbuckle.AspNetCore.Swagger;
+using TaskScheduler.Api.Services;
 using TaskScheduler.DAL;
 using TaskScheduler.Domain.Interfaces;
 using TaskScheduler.Domain.Models;
@@ -35,8 +36,9 @@ namespace TaskScheduler.Api
             services.AddScoped<IQueueWriter<BaseTask>, QueueDispatcher<BaseTask>>((s) => QueueDispatcher<BaseTask>.CreateAsync().Result);
 
             services.AddScoped(typeof(TasksFactory<BaseTask>));
+
             services.AddSingleton<IManager<BaseTask>, Manager<BaseTask>>();
-            //TODO: Initialize Manager with tasks from DB
+            services.AddHostedService<TaskManagerService<BaseTask>>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 

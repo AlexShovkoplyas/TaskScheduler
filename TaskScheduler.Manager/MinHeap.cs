@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TaskScheduler.Domain.Interfaces;
 
 namespace TaskScheduler.Manager
 {
-    public class MinHeap<T> where T : IComparable<T>
+    public class MinHeap<T> where T : IComparable<T>, IEntityId
     {
         private T[] _elements;
         private int _size;
@@ -62,7 +63,7 @@ namespace TaskScheduler.Manager
             _elements[0] = _elements[_size - 1];
             _size--;
 
-            ReCalculateDown();
+            ReCalculateDown(0);
 
             return result;
         }
@@ -85,9 +86,16 @@ namespace TaskScheduler.Manager
             ReCalculateUp();
         }
 
-        private void ReCalculateDown()
+        public void Remove(T element)
         {
-            int index = 0;
+            var index = Array.FindIndex(_elements, e => e.Id == element.Id);
+            Swap(index, _count);
+            --_count;
+            ReCalculateDown(index);
+        }
+
+        private void ReCalculateDown(int index)
+        {
             while (HasLeftChild(index))
             {
                 var smallerIndex = GetLeftChildIndex(index);

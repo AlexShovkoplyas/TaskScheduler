@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using TaskScheduler.Domain.Models;
 using TaskScheduler.Domain;
 using TaskScheduler.Domain.Interfaces;
+using System.Collections.Generic;
 
 namespace TaskScheduler.DAL
 {
@@ -28,6 +29,19 @@ namespace TaskScheduler.DAL
             return repo.InitializeAsync();
         }
 
+        public async Task<IQueryable<T>> List()
+        {
+            var collectionUri = UriFactory.CreateDocumentCollectionUri(DatabaseId, CollectionId);
+            var collection = (await client.ReadDocumentCollectionAsync(collectionUri)).Resource;
+            return client.CreateDocumentQuery<T>(collection.SelfLink).AsQueryable();
+        }
+
+        public async Task<T> Get(string id)
+        {
+            var documentUri = UriFactory.CreateDocumentUri(DatabaseId, CollectionId, id);
+            return await client.ReadDocumentAsync<T>(documentUri);
+        }
+
         public async Task<T> Add(T entity)
         {
             await CreateDocumentIfNotExists(entity);
@@ -36,15 +50,15 @@ namespace TaskScheduler.DAL
 
         public async Task<bool> Remove(string id)
         {
-            var documnetUri = UriFactory.CreateDocumentUri(DatabaseId, CollectionId, id);
-            await client.DeleteDocumentAsync(documnetUri);
+            var documentUri = UriFactory.CreateDocumentUri(DatabaseId, CollectionId, id);
+            await client.DeleteDocumentAsync(documentUri);
             return true;
         }
 
         public async Task<T> Update(T entity)
         {
-            var documnetUri = UriFactory.CreateDocumentUri(DatabaseId, CollectionId, entity.Id);
-            var response = await client.UpsertDocumentAsync(documnetUri, entity);
+            var documentUri = UriFactory.CreateDocumentUri(DatabaseId, CollectionId, entity.Id);
+            var response = await client.UpsertDocumentAsync(documentUri, entity);
             return entity;
         }
 
@@ -79,8 +93,8 @@ namespace TaskScheduler.DAL
         {
             try
             {
-                var documnetUri = UriFactory.CreateDocumentUri(DatabaseId, CollectionId, entity.Id);
-                await client.ReadDocumentAsync(documnetUri);
+                var documentUri = UriFactory.CreateDocumentUri(DatabaseId, CollectionId, entity.Id);
+                await client.ReadDocumentAsync(documentUri);
             }
             catch (DocumentClientException de)
             {

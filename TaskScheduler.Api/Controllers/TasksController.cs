@@ -30,29 +30,39 @@ namespace TaskScheduler.Api.Controllers
             this.tasksFactory = tasksFactory;
         }
 
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };            
-        //}
+        [HttpGet(Name = "Get")]
+        public async Task<IEnumerable<BaseTask>> List()
+        {
+            return await repository.List();
+        }
 
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return null;
-        //}
+        [HttpGet("{id}", Name = "Get")]
+        public async Task<BaseTask> Get(string id)
+        {
+            return await repository.Get(id);
+        }
 
         [HttpPost]
-        public void Post([FromBody] BaseTask task)
+        public async void Post([FromBody] BaseTask task)
         {
-            repository.Add(task);
+            await repository.Add(task);
             manager.Add(task, tasksFactory.SendMessageAction);
         }
 
-        //[HttpDelete("{id}")]
-        //public void Delete(int id)
-        //{
-        //}
+        [HttpPut]
+        public async void Put([FromBody] BaseTask task)
+        {
+            await repository.Update(task);
+            manager.Remove(task.Id);
+            manager.Add(task, tasksFactory.SendMessageAction);
+        }
+
+        [HttpDelete("{id}")]
+        public async void Delete(string id)
+        {
+            await repository.Remove(id);
+            manager.Remove(id);
+        }
 
         //[Route("test")]
         //public async Task TestEndpoint()
