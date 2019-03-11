@@ -33,8 +33,7 @@ namespace TaskScheduler.Manager
 
         public void Remove(string taskId)
         {
-            //TODO: it looks that easier to change minheap on sortedset
-            throw new NotImplementedException();
+            tasksQueue.Remove(taskId);
         }
 
         public async Task StartAsync()

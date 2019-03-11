@@ -12,6 +12,9 @@ using TaskScheduler.Domain;
 using TaskScheduler.Domain.Interfaces;
 using TaskScheduler.Domain.Models;
 using TaskScheduler.Infrustructure;
+using System.Net;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 
 namespace TaskScheduler.Tasks.SaveWebPage
 {
@@ -19,44 +22,52 @@ namespace TaskScheduler.Tasks.SaveWebPage
     {
         private const int TIMEOUT = 1024;
 
-        private static IDocumentRepository<WebPingTriggeredTask> repository;
-
-        public static async Task ProcessQueueMessage([QueueTrigger("task-savewebpage")] CloudQueueMessage message, ILogger logger)
+        public Functions(IDocumentRepository<SavePageTriggeredTask> repository, IConverter converter)
         {
-            var task = message.AsString.Deserialize<WebPingTask>();
+            this.repository = repository;
+            this.converter = converter;
+        }
 
+        private readonly IDocumentRepository<SavePageTriggeredTask> repository;
+        private readonly IConverter converter;
+
+        public async Task ProcessQueueMessage(
+            [QueueTrigger("task-savewebpage")] SavePageTask task,
+            [Blob("savedPages/{Id}_{datetime:yyyy-mm-dd}", FileAccess.Write)] Stream outputBlob,
+            string Id, DateTime datetime,
+            ILogger logger)
+        {
             string targetHost = task.TaskOptions.Url;
-            Ping pingSender = new Ping();
-            PingReply reply = pingSender.Send(targetHost, TIMEOUT);
 
-            var log = new WebPingTriggeredTask
+            switch (task.TaskOptions.HowToSave)
+            {
+                case SaveOption.ToPdf:
+                    //TODO:
+                    throw new NotImplementedException();
+
+                case SaveOption.ToHtml:
+                    await SaveToHtml(outputBlob, targetHost);
+                    break;
+            }
+
+            var log = new SavePageTriggeredTask
             {
                 Id = task.Id,
-                TaskType = TaskType.WebPing,
+                TaskType = TaskType.SavePage,
                 TriggeredOn = DateTime.UtcNow,
-                TaskResult = reply.Status == IPStatus.Success ? WebPingTaskResult.Ok : WebPingTaskResult.Error
+                BlobPath = $"savedPages/{Id}_{datetime:yyyy-mm-dd}"
             };
 
-            repository = await DocumentRepository<WebPingTriggeredTask>.CreateAsync();
             await repository.Add(log);
         }
 
-        //public static void ProcessQueueMessage2(
-        //    [QueueTrigger("task-webping")] string message,
-        //    [Blob("container/{queueTrigger}", FileAccess.Read)] Stream myBlob,
-        //    ILogger logger)
-        //{
-        //    logger.LogInformation($"Blob name:{message} \n Size: {myBlob.Length} bytes");
-        //}
-
-        //public static void ProcessQueueMessage3(
-        //    [QueueTrigger("task-webping")] string message,
-        //    [Blob("container/{queueTrigger2}", FileAccess.Read)] Stream myBlob,
-        //    [Blob("container/copy-{queueTrigger}", FileAccess.Write)] Stream outputBlob,
-        //    ILogger logger)
-        //{
-        //    logger.LogInformation($"Blob name:{message} \n Size: {myBlob.Length} bytes");
-        //    myBlob.CopyTo(outputBlob);
-        //}
+        private static async Task SaveToHtml(Stream outputBlob, string targetHost)
+        {
+            using (WebClient client = new WebClient())
+            {
+                var blobData = await client.DownloadDataTaskAsync(targetHost);
+                await outputBlob.WriteAsync(blobData, 0, blobData.Length);
+            }
+        }
     }
 }

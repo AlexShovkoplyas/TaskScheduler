@@ -3,6 +3,8 @@ using System;
 using Microsoft.Extensions.Logging;
 using TaskScheduler.Domain.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 namespace TaskScheduler.Tasks.SaveWebPage
 {
@@ -22,6 +24,7 @@ namespace TaskScheduler.Tasks.SaveWebPage
             });
             builder.ConfigureServices((hostContext, s) =>
             {
+                s.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
                 //TODO
             });
             var host = builder.Build();

@@ -6,6 +6,7 @@ namespace TaskScheduler.Domain
 {
     public enum TaskType
     {
-        WebPing
+        WebPing,
+        SavePage
     }
 }

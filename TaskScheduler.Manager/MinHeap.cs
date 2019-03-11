@@ -86,11 +86,11 @@ namespace TaskScheduler.Manager
             ReCalculateUp();
         }
 
-        public void Remove(T element)
+        public void Remove(string id)
         {
-            var index = Array.FindIndex(_elements, e => e.Id == element.Id);
+            var index = Array.FindIndex(_elements, e => e.Id == id);
             Swap(index, _count);
-            --_count;
+            _count--;
             ReCalculateDown(index);
         }
 
